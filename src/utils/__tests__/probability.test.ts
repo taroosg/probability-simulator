@@ -1,8 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
-  calculateAtLeastOneSuccessProbability,
   calculateProbability,
-  calculateTrialsNeeded,
   runSimulations,
   simulateEvent,
 } from '../probability';
