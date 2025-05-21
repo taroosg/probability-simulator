@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { calculateAtLeastOneSuccessProbability } from '../utils/probability';
 
 const AtLeastOneSuccessCalculator = () => {
   const [targetProbability, setTargetProbability] = useState<number>(0.0);
+  const [displayTargetProbability, setDisplayTargetProbability] =
+    useState<string>('0');
   const [trials, setTrials] = useState<number>(0);
   const [result, setResult] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleCalculate = () => {
+  const calculateResult = useCallback(() => {
     setError(null);
 
     try {
@@ -16,7 +18,9 @@ const AtLeastOneSuccessCalculator = () => {
         targetProbability < 0 ||
         targetProbability > 1
       ) {
-        throw new Error('ターゲットの排出確率は0から1の間で入力してください');
+        throw new Error(
+          'ターゲットの排出確率は0%から100%の間で入力してください'
+        );
       }
 
       if (Number.isNaN(trials) || trials <= 0 || !Number.isInteger(trials)) {
@@ -34,6 +38,18 @@ const AtLeastOneSuccessCalculator = () => {
       );
       setResult(null);
     }
+  }, [targetProbability, trials]);
+
+  useEffect(() => {
+    calculateResult();
+  }, [calculateResult]);
+
+  const handleTargetProbabilityChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = Number.parseFloat(e.target.value);
+    setDisplayTargetProbability(e.target.value);
+    setTargetProbability(value / 100);
   };
 
   return (
@@ -44,18 +60,16 @@ const AtLeastOneSuccessCalculator = () => {
 
       <div className="form-group">
         <label htmlFor="targetProbability" className="form-label">
-          ターゲットの排出確率 (0.0 ~ 1.0)
+          ターゲットの排出確率 (0% ~ 100%)
         </label>
         <input
           id="targetProbability"
           type="number"
           step="0.1"
           min="0"
-          max="1"
-          value={targetProbability}
-          onChange={(e) =>
-            setTargetProbability(Number.parseFloat(e.target.value))
-          }
+          max="100"
+          value={displayTargetProbability}
+          onChange={handleTargetProbabilityChange}
           className="mb-4"
         />
       </div>
@@ -75,18 +89,15 @@ const AtLeastOneSuccessCalculator = () => {
         />
       </div>
 
-      <button type="button" onClick={handleCalculate} className="mb-6">
-        計算する
-      </button>
-
       {error && <div className="text-red-500 mb-4">{error}</div>}
 
       {result !== null && (
         <div className="result-box">
           <p className="text-lg mb-2">結果:</p>
-          <p className="text-2xl font-bold">{(result * 100).toFixed(2)}%</p>
+          <p className="text-2xl font-bold">{(result * 100).toFixed(1)}%</p>
           <p className="text-sm mt-2">
-            （{trials}回引いた場合に1回以上{targetProbability * 100}
+            （{trials}回引いた場合に1回以上
+            {(targetProbability * 100).toFixed(1)}
             %のターゲットを引ける確率）
           </p>
         </div>
