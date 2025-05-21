@@ -1,6 +1,6 @@
 import react from '@vitejs/plugin-react-swc';
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 
 // https://vite.dev/config/
 export default defineConfig({
