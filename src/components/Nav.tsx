@@ -10,7 +10,7 @@ const Nav = ({ activeTab, onTabChange }: NavProps) => {
         type="button"
         className={`flex-1 text-center py-3 transition-all ${
           activeTab === 'atLeastOne'
-            ? 'text-gray-800 dark:text-white border-t-2 border-gray-800 dark:border-white bg-gray-100 dark:bg-gray-700'
+            ? 'active text-gray-800 dark:text-white border-t-2 border-gray-800 dark:border-white bg-gray-100 dark:bg-gray-700'
             : 'text-gray-500 dark:text-gray-400 bg-transparent hover:text-gray-800 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
         }`}
         onClick={() => onTabChange('atLeastOne')}
@@ -21,7 +21,7 @@ const Nav = ({ activeTab, onTabChange }: NavProps) => {
         type="button"
         className={`flex-1 text-center py-3 transition-all ${
           activeTab === 'trialsNeeded'
-            ? 'text-gray-800 dark:text-white border-t-2 border-gray-800 dark:border-white bg-gray-100 dark:bg-gray-700'
+            ? 'active text-gray-800 dark:text-white border-t-2 border-gray-800 dark:border-white bg-gray-100 dark:bg-gray-700'
             : 'text-gray-500 dark:text-gray-400 bg-transparent hover:text-gray-800 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
         }`}
         onClick={() => onTabChange('trialsNeeded')}
