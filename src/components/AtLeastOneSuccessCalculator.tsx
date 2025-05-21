@@ -54,7 +54,7 @@ const AtLeastOneSuccessCalculator = () => {
 
   return (
     <div className="page-container">
-      <h2 className="text-xl font-bold mb-4">
+      <h2 className="page-title">
         1回以上ターゲットを引ける確率計算
       </h2>
 
@@ -70,7 +70,6 @@ const AtLeastOneSuccessCalculator = () => {
           max="100"
           value={displayTargetProbability}
           onChange={handleTargetProbabilityChange}
-          className="mb-4"
         />
       </div>
 
@@ -85,17 +84,16 @@ const AtLeastOneSuccessCalculator = () => {
           step="1"
           value={trials}
           onChange={(e) => setTrials(Number.parseInt(e.target.value, 10))}
-          className="mb-4"
         />
       </div>
 
-      {error && <div className="text-red-500 mb-4">{error}</div>}
+      {error && <div className="error-message">{error}</div>}
 
       {result !== null && (
         <div className="result-box">
-          <p className="text-lg mb-2">結果:</p>
-          <p className="text-2xl font-bold">{(result * 100).toFixed(1)}%</p>
-          <p className="text-sm mt-2">
+          <p className="result-title">結果:</p>
+          <p className="result-value">{(result * 100).toFixed(1)}%</p>
+          <p className="result-description">
             （{trials}回引いた場合に1回以上
             {(targetProbability * 100).toFixed(1)}
             %のターゲットを引ける確率）

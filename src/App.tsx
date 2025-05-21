@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './App.css';
 import AtLeastOneSuccessCalculator from './components/AtLeastOneSuccessCalculator';
 import Nav from './components/Nav';
 import TrialsNeededCalculator from './components/TrialsNeededCalculator';

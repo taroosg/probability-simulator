@@ -78,7 +78,7 @@ const TrialsNeededCalculator = () => {
 
   return (
     <div className="page-container">
-      <h2 className="text-xl font-bold mb-4">
+      <h2 className="page-title">
         目標確率達成に必要な試行回数計算
       </h2>
 
@@ -94,7 +94,6 @@ const TrialsNeededCalculator = () => {
           max="100"
           value={displayTargetProbability}
           onChange={handleTargetProbabilityChange}
-          className="mb-4"
         />
       </div>
 
@@ -111,7 +110,6 @@ const TrialsNeededCalculator = () => {
           onChange={(e) =>
             setDesiredQuantity(Number.parseInt(e.target.value, 10))
           }
-          className="mb-4"
         />
       </div>
 
@@ -127,17 +125,16 @@ const TrialsNeededCalculator = () => {
           max="100"
           value={displayGoalProbability}
           onChange={handleGoalProbabilityChange}
-          className="mb-4"
         />
       </div>
 
-      {error && <div className="text-red-500 mb-4">{error}</div>}
+      {error && <div className="error-message">{error}</div>}
 
       {result !== null && (
         <div className="result-box">
-          <p className="text-lg mb-2">結果:</p>
-          <p className="text-2xl font-bold">{result}回</p>
-          <p className="text-sm mt-2">
+          <p className="result-title">結果:</p>
+          <p className="result-value">{result}回</p>
+          <p className="result-description">
             （{(goalProbability * 100).toFixed(1)}%の確率で{desiredQuantity}個の
             {(targetProbability * 100).toFixed(1)}
             %ターゲットを得るために必要な回数）
