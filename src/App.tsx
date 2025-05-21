@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import AtLeastOneSuccessCalculator from './components/AtLeastOneSuccessCalculator';
-import TrialsNeededCalculator from './components/TrialsNeededCalculator';
 import Nav from './components/Nav';
+import TrialsNeededCalculator from './components/TrialsNeededCalculator';
 
 function App() {
   const [activeTab, setActiveTab] = useState<string>('atLeastOne');

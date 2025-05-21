@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
+  calculateAtLeastOneSuccessProbability,
   calculateProbability,
+  calculateTrialsNeeded,
   runSimulations,
   simulateEvent,
-  calculateAtLeastOneSuccessProbability,
-  calculateTrialsNeeded,
 } from '../probability';
 
 describe('calculateProbability', () => {
