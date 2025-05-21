@@ -3,6 +3,8 @@ import {
   calculateProbability,
   runSimulations,
   simulateEvent,
+  calculateAtLeastOneSuccessProbability,
+  calculateTrialsNeeded,
 } from '../probability';
 
 describe('calculateProbability', () => {

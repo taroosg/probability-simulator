@@ -22,6 +22,11 @@
     }
   },
   "files": {
-    "ignore": ["*.json", "tsconfig*.json"]
+    "ignore": [
+      "*.json",
+      "tsconfig*.json",
+      "tailwind.config.js",
+      "postcss.config.js"
+    ]
   }
 }
