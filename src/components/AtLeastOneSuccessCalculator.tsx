@@ -1,18 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { calculateAtLeastOneSuccessProbability } from '../utils/probability';
 
 const AtLeastOneSuccessCalculator = () => {
   const [targetProbability, setTargetProbability] = useState<number>(0.0);
-  const [displayTargetProbability, setDisplayTargetProbability] = useState<string>('0');
+  const [displayTargetProbability, setDisplayTargetProbability] =
+    useState<string>('0');
   const [trials, setTrials] = useState<number>(0);
   const [result, setResult] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    calculateResult();
-  }, [targetProbability, trials]);
-
-  const calculateResult = () => {
+  const calculateResult = useCallback(() => {
     setError(null);
 
     try {
@@ -21,7 +18,9 @@ const AtLeastOneSuccessCalculator = () => {
         targetProbability < 0 ||
         targetProbability > 1
       ) {
-        throw new Error('ターゲットの排出確率は0%から100%の間で入力してください');
+        throw new Error(
+          'ターゲットの排出確率は0%から100%の間で入力してください'
+        );
       }
 
       if (Number.isNaN(trials) || trials <= 0 || !Number.isInteger(trials)) {
@@ -39,9 +38,15 @@ const AtLeastOneSuccessCalculator = () => {
       );
       setResult(null);
     }
-  };
+  }, [targetProbability, trials]);
 
-  const handleTargetProbabilityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    calculateResult();
+  }, [calculateResult]);
+
+  const handleTargetProbabilityChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = Number.parseFloat(e.target.value);
     setDisplayTargetProbability(e.target.value);
     setTargetProbability(value / 100);
@@ -91,7 +96,8 @@ const AtLeastOneSuccessCalculator = () => {
           <p className="text-lg mb-2">結果:</p>
           <p className="text-2xl font-bold">{(result * 100).toFixed(1)}%</p>
           <p className="text-sm mt-2">
-            （{trials}回引いた場合に1回以上{(targetProbability * 100).toFixed(1)}
+            （{trials}回引いた場合に1回以上
+            {(targetProbability * 100).toFixed(1)}
             %のターゲットを引ける確率）
           </p>
         </div>

@@ -1,20 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { calculateTrialsNeeded } from '../utils/probability';
 
 const TrialsNeededCalculator = () => {
   const [targetProbability, setTargetProbability] = useState<number>(0.0);
-  const [displayTargetProbability, setDisplayTargetProbability] = useState<string>('0');
+  const [displayTargetProbability, setDisplayTargetProbability] =
+    useState<string>('0');
   const [desiredQuantity, setDesiredQuantity] = useState<number>(1);
   const [goalProbability, setGoalProbability] = useState<number>(0.0);
-  const [displayGoalProbability, setDisplayGoalProbability] = useState<string>('0');
+  const [displayGoalProbability, setDisplayGoalProbability] =
+    useState<string>('0');
   const [result, setResult] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    calculateResult();
-  }, [targetProbability, desiredQuantity, goalProbability]);
-
-  const calculateResult = () => {
+  const calculateResult = useCallback(() => {
     setError(null);
 
     try {
@@ -23,7 +21,9 @@ const TrialsNeededCalculator = () => {
         targetProbability < 0 ||
         targetProbability > 1
       ) {
-        throw new Error('ターゲットの排出確率は0%から100%の間で入力してください');
+        throw new Error(
+          'ターゲットの排出確率は0%から100%の間で入力してください'
+        );
       }
 
       if (
@@ -54,15 +54,23 @@ const TrialsNeededCalculator = () => {
       );
       setResult(null);
     }
-  };
+  }, [targetProbability, desiredQuantity, goalProbability]);
 
-  const handleTargetProbabilityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    calculateResult();
+  }, [calculateResult]);
+
+  const handleTargetProbabilityChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = Number.parseFloat(e.target.value);
     setDisplayTargetProbability(e.target.value);
     setTargetProbability(value / 100);
   };
 
-  const handleGoalProbabilityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleGoalProbabilityChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = Number.parseFloat(e.target.value);
     setDisplayGoalProbability(e.target.value);
     setGoalProbability(value / 100);
@@ -131,7 +139,8 @@ const TrialsNeededCalculator = () => {
           <p className="text-2xl font-bold">{result}回</p>
           <p className="text-sm mt-2">
             （{(goalProbability * 100).toFixed(1)}%の確率で{desiredQuantity}個の
-            {(targetProbability * 100).toFixed(1)}%ターゲットを得るために必要な回数）
+            {(targetProbability * 100).toFixed(1)}
+            %ターゲットを得るために必要な回数）
           </p>
         </div>
       )}
