@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { calculateTrialsNeeded } from '../utils/probability';
 
 const TrialsNeededCalculator = () => {
   const [targetProbability, setTargetProbability] = useState<number>(0.0);
+  const [displayTargetProbability, setDisplayTargetProbability] = useState<string>('0');
   const [desiredQuantity, setDesiredQuantity] = useState<number>(1);
   const [goalProbability, setGoalProbability] = useState<number>(0.0);
+  const [displayGoalProbability, setDisplayGoalProbability] = useState<string>('0');
   const [result, setResult] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleCalculate = () => {
+  useEffect(() => {
+    calculateResult();
+  }, [targetProbability, desiredQuantity, goalProbability]);
+
+  const calculateResult = () => {
     setError(null);
 
     try {
@@ -17,7 +23,7 @@ const TrialsNeededCalculator = () => {
         targetProbability < 0 ||
         targetProbability > 1
       ) {
-        throw new Error('ターゲットの排出確率は0から1の間で入力してください');
+        throw new Error('ターゲットの排出確率は0%から100%の間で入力してください');
       }
 
       if (
@@ -33,7 +39,7 @@ const TrialsNeededCalculator = () => {
         goalProbability <= 0 ||
         goalProbability > 1
       ) {
-        throw new Error('目標確率は0より大きく1以下で入力してください');
+        throw new Error('目標確率は0%より大きく100%以下で入力してください');
       }
 
       const trials = calculateTrialsNeeded(
@@ -50,6 +56,18 @@ const TrialsNeededCalculator = () => {
     }
   };
 
+  const handleTargetProbabilityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number.parseFloat(e.target.value);
+    setDisplayTargetProbability(e.target.value);
+    setTargetProbability(value / 100);
+  };
+
+  const handleGoalProbabilityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number.parseFloat(e.target.value);
+    setDisplayGoalProbability(e.target.value);
+    setGoalProbability(value / 100);
+  };
+
   return (
     <div className="page-container">
       <h2 className="text-xl font-bold mb-4">
@@ -58,18 +76,16 @@ const TrialsNeededCalculator = () => {
 
       <div className="form-group">
         <label htmlFor="targetProbability" className="form-label">
-          ターゲットの排出確率 (0.0 ~ 1.0)
+          ターゲットの排出確率 (0% ~ 100%)
         </label>
         <input
           id="targetProbability"
           type="number"
           step="0.1"
           min="0"
-          max="1"
-          value={targetProbability}
-          onChange={(e) =>
-            setTargetProbability(Number.parseFloat(e.target.value))
-          }
+          max="100"
+          value={displayTargetProbability}
+          onChange={handleTargetProbabilityChange}
           className="mb-4"
         />
       </div>
@@ -93,25 +109,19 @@ const TrialsNeededCalculator = () => {
 
       <div className="form-group">
         <label htmlFor="goalProbability" className="form-label">
-          目標確率 (0.0 ~ 1.0)
+          目標確率 (0% ~ 100%)
         </label>
         <input
           id="goalProbability"
           type="number"
           step="0.1"
           min="0"
-          max="1"
-          value={goalProbability}
-          onChange={(e) =>
-            setGoalProbability(Number.parseFloat(e.target.value))
-          }
+          max="100"
+          value={displayGoalProbability}
+          onChange={handleGoalProbabilityChange}
           className="mb-4"
         />
       </div>
-
-      <button type="button" onClick={handleCalculate} className="mb-6">
-        計算する
-      </button>
 
       {error && <div className="text-red-500 mb-4">{error}</div>}
 
@@ -120,8 +130,8 @@ const TrialsNeededCalculator = () => {
           <p className="text-lg mb-2">結果:</p>
           <p className="text-2xl font-bold">{result}回</p>
           <p className="text-sm mt-2">
-            （{goalProbability * 100}%の確率で{desiredQuantity}個の
-            {targetProbability * 100}%ターゲットを得るために必要な回数）
+            （{(goalProbability * 100).toFixed(1)}%の確率で{desiredQuantity}個の
+            {(targetProbability * 100).toFixed(1)}%ターゲットを得るために必要な回数）
           </p>
         </div>
       )}

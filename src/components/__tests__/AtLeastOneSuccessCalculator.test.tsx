@@ -11,10 +11,11 @@ describe('AtLeastOneSuccessCalculator', () => {
     ).toBeInTheDocument();
     expect(screen.getByLabelText(/ターゲットの排出確率/)).toBeInTheDocument();
     expect(screen.getByLabelText(/試行回数/)).toBeInTheDocument();
-    expect(screen.getByText('計算する')).toBeInTheDocument();
+    // Check button is no longer present
+    expect(screen.queryByText('計算する')).not.toBeInTheDocument();
   });
 
-  it('calculates probability correctly', () => {
+  it('calculates probability correctly on input change', () => {
     render(<AtLeastOneSuccessCalculator />);
 
     // Input values
@@ -23,15 +24,11 @@ describe('AtLeastOneSuccessCalculator', () => {
     ) as HTMLInputElement;
     const trialsInput = screen.getByLabelText(/試行回数/) as HTMLInputElement;
 
-    fireEvent.change(probabilityInput, { target: { value: '0.1' } });
+    fireEvent.change(probabilityInput, { target: { value: '10' } });
     fireEvent.change(trialsInput, { target: { value: '10' } });
 
-    // Click calculate button
-    const calculateButton = screen.getByText('計算する');
-    fireEvent.click(calculateButton);
-
-    // Check result is approximately 65.13%
-    expect(screen.getByText('65.13%')).toBeInTheDocument();
+    // Check result is approximately 65.1% (with one decimal place)
+    expect(screen.getByText('65.1%')).toBeInTheDocument();
   });
 
   it('shows error for invalid inputs', () => {
@@ -43,23 +40,17 @@ describe('AtLeastOneSuccessCalculator', () => {
     ) as HTMLInputElement;
     const trialsInput = screen.getByLabelText(/試行回数/) as HTMLInputElement;
 
-    fireEvent.change(probabilityInput, { target: { value: '2' } });
+    fireEvent.change(probabilityInput, { target: { value: '200' } });
     fireEvent.change(trialsInput, { target: { value: '10' } });
-
-    // Click calculate button
-    const calculateButton = screen.getByText('計算する');
-    fireEvent.click(calculateButton);
 
     // Check error message
     expect(
-      screen.getByText(/ターゲットの排出確率は0から1の間で入力してください/)
+      screen.getByText(/ターゲットの排出確率は0%から100%の間で入力してください/)
     ).toBeInTheDocument();
 
     // Try another invalid input
-    fireEvent.change(probabilityInput, { target: { value: '0.5' } });
+    fireEvent.change(probabilityInput, { target: { value: '50' } });
     fireEvent.change(trialsInput, { target: { value: '-1' } });
-
-    fireEvent.click(calculateButton);
 
     // Check error message
     expect(

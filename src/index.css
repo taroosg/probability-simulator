@@ -14,7 +14,8 @@ body {
 }
 
 .page-container {
-  @apply min-h-[calc(100dvh-60px)] p-4 flex flex-col items-center;
+  @apply min-h-[calc(100dvh-60px)] p-4 flex flex-col items-center mx-auto;
+  max-width: 600px;
 }
 
 button {
