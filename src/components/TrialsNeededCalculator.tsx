@@ -77,13 +77,16 @@ const TrialsNeededCalculator = () => {
   };
 
   return (
-    <div className="page-container">
-      <h2 className="page-title">
+    <div className="min-h-[calc(100dvh-60px)] p-4 flex flex-col items-center mx-auto max-w-[600px]">
+      <h2 className="text-xl font-bold mb-6 border-b border-gray-200 dark:border-gray-700 pb-2 w-full text-center text-gray-800 dark:text-white">
         目標確率達成に必要な試行回数計算
       </h2>
 
-      <div className="form-group">
-        <label htmlFor="targetProbability" className="form-label">
+      <div className="mb-5 w-full">
+        <label
+          htmlFor="targetProbability"
+          className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-300"
+        >
           ターゲットの排出確率 (0% ~ 100%)
         </label>
         <input
@@ -94,11 +97,15 @@ const TrialsNeededCalculator = () => {
           max="100"
           value={displayTargetProbability}
           onChange={handleTargetProbabilityChange}
+          className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md py-3 px-4 w-full text-lg mb-5 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-gray-400/50 dark:focus:ring-gray-200/50 dark:text-white"
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="desiredQuantity" className="form-label">
+      <div className="mb-5 w-full">
+        <label
+          htmlFor="desiredQuantity"
+          className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-300"
+        >
           ほしいターゲットの数量
         </label>
         <input
@@ -110,11 +117,15 @@ const TrialsNeededCalculator = () => {
           onChange={(e) =>
             setDesiredQuantity(Number.parseInt(e.target.value, 10))
           }
+          className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md py-3 px-4 w-full text-lg mb-5 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-gray-400/50 dark:focus:ring-gray-200/50 dark:text-white"
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="goalProbability" className="form-label">
+      <div className="mb-5 w-full">
+        <label
+          htmlFor="goalProbability"
+          className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-300"
+        >
           目標確率 (0% ~ 100%)
         </label>
         <input
@@ -125,16 +136,23 @@ const TrialsNeededCalculator = () => {
           max="100"
           value={displayGoalProbability}
           onChange={handleGoalProbabilityChange}
+          className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md py-3 px-4 w-full text-lg mb-5 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-gray-400/50 dark:focus:ring-gray-200/50 dark:text-white"
         />
       </div>
 
-      {error && <div className="error-message">{error}</div>}
+      {error && (
+        <div className="bg-gray-100 dark:bg-gray-700 border-l-4 border-l-gray-800 dark:border-l-gray-300 p-3 mb-4 text-sm">
+          {error}
+        </div>
+      )}
 
       {result !== null && (
-        <div className="result-box">
-          <p className="result-title">結果:</p>
-          <p className="result-value">{result}回</p>
-          <p className="result-description">
+        <div className="mt-6 p-5 bg-white dark:bg-gray-800 rounded-md shadow-sm w-full text-center border border-gray-200 dark:border-gray-700">
+          <p className="text-lg mb-2 text-gray-600 dark:text-gray-300">結果:</p>
+          <p className="text-3xl font-bold text-gray-800 dark:text-white">
+            {result}回
+          </p>
+          <p className="text-sm mt-3 text-gray-500 dark:text-gray-400">
             （{(goalProbability * 100).toFixed(1)}%の確率で{desiredQuantity}個の
             {(targetProbability * 100).toFixed(1)}
             %ターゲットを得るために必要な回数）
