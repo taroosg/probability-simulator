@@ -53,13 +53,16 @@ const AtLeastOneSuccessCalculator = () => {
   };
 
   return (
-    <div className="page-container">
-      <h2 className="text-xl font-bold mb-4">
+    <div className="min-h-[calc(100dvh-60px)] p-4 flex flex-col items-center mx-auto max-w-[600px]">
+      <h2 className="text-xl font-bold mb-6 border-b border-gray-200 dark:border-gray-700 pb-2 w-full text-center text-gray-800 dark:text-white">
         1回以上ターゲットを引ける確率計算
       </h2>
 
-      <div className="form-group">
-        <label htmlFor="targetProbability" className="form-label">
+      <div className="mb-5 w-full">
+        <label
+          htmlFor="targetProbability"
+          className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-300"
+        >
           ターゲットの排出確率 (0% ~ 100%)
         </label>
         <input
@@ -70,12 +73,15 @@ const AtLeastOneSuccessCalculator = () => {
           max="100"
           value={displayTargetProbability}
           onChange={handleTargetProbabilityChange}
-          className="mb-4"
+          className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md py-3 px-4 w-full text-lg mb-5 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-gray-400/50 dark:focus:ring-gray-200/50 dark:text-white"
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="trials" className="form-label">
+      <div className="mb-5 w-full">
+        <label
+          htmlFor="trials"
+          className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-300"
+        >
           試行回数 (回)
         </label>
         <input
@@ -85,17 +91,23 @@ const AtLeastOneSuccessCalculator = () => {
           step="1"
           value={trials}
           onChange={(e) => setTrials(Number.parseInt(e.target.value, 10))}
-          className="mb-4"
+          className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md py-3 px-4 w-full text-lg mb-5 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-gray-400/50 dark:focus:ring-gray-200/50 dark:text-white"
         />
       </div>
 
-      {error && <div className="text-red-500 mb-4">{error}</div>}
+      {error && (
+        <div className="bg-gray-100 dark:bg-gray-700 border-l-4 border-l-gray-800 dark:border-l-gray-300 p-3 mb-4 text-sm">
+          {error}
+        </div>
+      )}
 
       {result !== null && (
-        <div className="result-box">
-          <p className="text-lg mb-2">結果:</p>
-          <p className="text-2xl font-bold">{(result * 100).toFixed(1)}%</p>
-          <p className="text-sm mt-2">
+        <div className="mt-6 p-5 bg-white dark:bg-gray-800 rounded-md shadow-sm w-full text-center border border-gray-200 dark:border-gray-700">
+          <p className="text-lg mb-2 text-gray-600 dark:text-gray-300">結果:</p>
+          <p className="text-3xl font-bold text-gray-800 dark:text-white">
+            {(result * 100).toFixed(1)}%
+          </p>
+          <p className="text-sm mt-3 text-gray-500 dark:text-gray-400">
             （{trials}回引いた場合に1回以上
             {(targetProbability * 100).toFixed(1)}
             %のターゲットを引ける確率）

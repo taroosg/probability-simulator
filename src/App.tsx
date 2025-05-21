@@ -7,7 +7,7 @@ function App() {
   const [activeTab, setActiveTab] = useState<string>('atLeastOne');
 
   return (
-    <div className="app-container">
+    <div className="min-h-screen w-full">
       {activeTab === 'atLeastOne' && <AtLeastOneSuccessCalculator />}
       {activeTab === 'trialsNeeded' && <TrialsNeededCalculator />}
       <Nav activeTab={activeTab} onTabChange={setActiveTab} />
