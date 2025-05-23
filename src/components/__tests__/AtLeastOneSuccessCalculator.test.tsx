@@ -6,9 +6,7 @@ describe('AtLeastOneSuccessCalculator', () => {
   it('renders the component correctly', () => {
     render(<AtLeastOneSuccessCalculator />);
 
-    expect(
-      screen.getByText('1回以上ターゲットを引ける確率計算')
-    ).toBeInTheDocument();
+    expect(screen.getByText('確率計算')).toBeInTheDocument();
     expect(screen.getByLabelText(/ターゲットの排出確率/)).toBeInTheDocument();
     expect(screen.getByLabelText(/試行回数/)).toBeInTheDocument();
     // Check button is no longer present

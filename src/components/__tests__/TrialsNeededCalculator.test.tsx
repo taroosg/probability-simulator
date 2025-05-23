@@ -6,9 +6,7 @@ describe('TrialsNeededCalculator', () => {
   it('renders the component correctly', () => {
     render(<TrialsNeededCalculator />);
 
-    expect(
-      screen.getByText('目標確率達成に必要な試行回数計算')
-    ).toBeInTheDocument();
+    expect(screen.getByText('回数計算')).toBeInTheDocument();
     expect(screen.getByLabelText(/ターゲットの排出確率/)).toBeInTheDocument();
     expect(screen.getByLabelText(/ほしいターゲットの数量/)).toBeInTheDocument();
     expect(screen.getByLabelText(/目標確率/)).toBeInTheDocument();

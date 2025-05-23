@@ -8,11 +8,16 @@ describe('Nav', () => {
 
     render(<Nav activeTab="atLeastOne" onTabChange={mockOnTabChange} />);
 
-    const atLeastOneButton = screen.getByText('確率計算');
-    const trialsNeededButton = screen.getByText('回数計算');
+    const atLeastOneButton = screen.getByText('確率計算').closest('button');
+    const trialsNeededButton = screen.getByText('回数計算').closest('button');
 
-    expect(atLeastOneButton.className).toContain('active');
-    expect(trialsNeededButton.className).not.toContain('active');
+    // More specific checks for active state
+    expect(atLeastOneButton).toHaveAttribute('aria-pressed', 'true');
+    expect(trialsNeededButton).toHaveAttribute('aria-pressed', 'false');
+
+    // Check className contains active indicators
+    expect(atLeastOneButton?.className).toContain('border-t-2');
+    expect(trialsNeededButton?.className).not.toContain('border-t-2');
   });
 
   it('calls onTabChange with correct parameter when clicked', () => {
